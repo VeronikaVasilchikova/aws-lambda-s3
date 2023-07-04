@@ -14,10 +14,10 @@ provider:
   region: us-west-2
   memorySize: 128
   environment:
-    DATADOG_HOST: ${self:custom.DATADOG_HOST.${self:custom.stage}}
-    DATADOG_API_KEY: ${self:custom.DATADOG_API_KEY.${self:custom.stage}}
-    DATADOG_SERVICE: ${self:custom.DATADOG_SERVICE.${self:custom.stage}}
-    BASE_URL: ${self:custom.BASE_URL.${self:custom.stage}}
+    DATADOG_HOST: ${self:custom.datadoghost.${self:custom.stage}}
+    DATADOG_API_KEY: ${self:custom.datadogapikey.${self:custom.stage}}
+    DATADOG_SERVICE: ${self:custom.datadogservice.${self:custom.stage}}
+    BASE_URL: ${self:custom.baseurl.${self:custom.stage}}
   stackName: ${self:service}-${self:provider.stage}-stack
   stackTags:
     env: ${self:provider.stage}
@@ -45,16 +45,16 @@ custom:
       'require.resolve': undefined
     platform: node
     concurrency: 10
-  DATADOG_HOST:
+  datadoghost:
     dev: ${ssm:/automated-settlements/dev/DATADOG_HOST~true}
     prod: ${ssm:/automated-settlements/prod/DATADOG_HOST~true}
-  DATADOG_API_KEY:
+  datadogapikey:
     dev: ${ssm:/automated-settlements/dev/DATADOG_API_KEY~true}
     prod: ${ssm:/automated-settlements/prod/DATADOG_API_KEY~true}
-  DATADOG_SERVICE:
+  datadogservice:
     dev: ${ssm:/automated-settlements/dev/DATADOG_SERVICE~true}
     prod: ${ssm:/automated-settlements/prod/DATADOG_SERVICE~true}
-  BASE_URL:
+  baseurl:
     dev: ${ssm:/automated-settlements/dev/BASE_URL~true}
     prod: ${ssm:/automated-settlements/prod/BASE_URL~true}
 
