@@ -5,6 +5,7 @@
   "scripts": {
     "deploy:dev": "sls deploy --stage dev --verbose --aws-profile veranika",
     "deploy:prod": "sls deploy --stage prod --verbose --aws-profile veranika",
+    "deploy": "sls deploy",
     "lint": "eslint \"**/*.ts\"",
     "lint:fix": "npm run lint -- --fix",
     "format": "prettier --write \"**/*.ts\""
