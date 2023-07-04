@@ -7,8 +7,6 @@ plugins:
   - serverless-plugin-resource-tagging
   - serverless-deployment-bucket
 
-# useDotenv: true
-
 provider:
   name: aws
   stage: ${opt:stage, 'dev'}
