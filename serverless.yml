@@ -44,10 +44,16 @@ functions:
     #         - suffix: .csv
     #       existing: true # generates another Lambda called 'custom-resource-existing-s3'
     environment:
-      DATADOG_HOST: ${env:DATADOG_HOST}
-      DATADOG_API_KEY: ${env:DATADOG_API_KEY}
-      DATADOG_SERVICE: ${env:DATADOG_SERVICE}
-      BASE_URL: ${env:BASE_URL}
+      # DATADOG_HOST: ${env:DATADOG_HOST}
+      # DATADOG_API_KEY: ${env:DATADOG_API_KEY}
+      # DATADOG_SERVICE: ${env:DATADOG_SERVICE}
+      # BASE_URL: ${env:BASE_URL}
+      DATADOG_HOST: ${ssm(\${self:provider.region}):/aws/reference/secretsmanager/${self:service}/\${self:provider.stage}/DATADOG_HOST, ""}
+      DATADOG_API_KEY: ${ssm(\${self:provider.region}):/aws/reference/secretsmanager/${self:service}/\${self:provider.stage}/DATADOG_API_KEY, ""}
+      DATADOG_SERVICE: ${ssm(\${self:provider.region}):/aws/reference/secretsmanager/${self:service}/\${self:provider.stage}/DATADOG_SERVICE, ""}
+      BASE_URL: ${ssm(\${self:provider.region}):/aws/reference/secretsmanager/${self:service}/\${self:provider.stage}/BASE_URL, ""}
+      # ${ssm(\${self:provider.region}):${AWS_SM_REF}/${self:service}/\${self:provider.stage}/BASE_URL, ""}
+      # ${ssm:/aws/reference/secretsmanager/secret_ID_in_Secrets_
 
 custom:
   esbuild:
