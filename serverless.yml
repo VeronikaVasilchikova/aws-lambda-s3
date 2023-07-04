@@ -30,6 +30,7 @@ functions:
   handle-offers:
     handler: src/handler.main
     environment:
+      TEST: ${self:provider.stage}
       DATADOG_HOST: arn:aws:secretsmanager:us-west-2:007745934069:secret:${self:provider.stage}/automated-settlements/lambda-nKiJIY/DATADOG_HOST
       DATADOG_API_KEY: arn:aws:secretsmanager:us-west-2:007745934069:secret:${self:provider.stage}/automated-settlements/lambda-nKiJIY/DATADOG_API_KEY
       DATADOG_SERVICE: arn:aws:secretsmanager:us-west-2:007745934069:secret:${self:provider.stage}/automated-settlements/lambda-nKiJIY/DATADOG_SERVICE
