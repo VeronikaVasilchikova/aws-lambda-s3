@@ -46,15 +46,15 @@ custom:
     platform: node
     concurrency: 10
   DATADOG_HOST:
-    dev: ${ssm:/automated-settlements/dev/DATADOG_HOST~true}
-    prod: ${ssm:/automated-settlements/prod/DATADOG_HOST~true}
+    dev: ${ssm:/automated-settlements/dev/DATADOG_HOST}
+    prod: ${ssm:/automated-settlements/prod/DATADOG_HOST}
   DATADOG_API_KEY:
-    dev: ${ssm:/automated-settlements/dev/DATADOG_API_KEY~true}
-    prod: ${ssm:/automated-settlements/prod/DATADOG_API_KEY~true}
+    dev: ${ssm:/automated-settlements/dev/DATADOG_API_KEY}
+    prod: ${ssm:/automated-settlements/prod/DATADOG_API_KEY}
   DATADOG_SERVICE:
-    dev: ${ssm:/automated-settlements/dev/DATADOG_SERVICE~true}
-    prod: ${ssm:/automated-settlements/prod/DATADOG_SERVICE~true}
+    dev: ${ssm:/automated-settlements/dev/DATADOG_SERVICE}
+    prod: ${ssm:/automated-settlements/prod/DATADOG_SERVICE}
   BASE_URL:
-    dev: ${ssm:/automated-settlements/dev/BASE_URL~true}
-    prod: ${ssm:/automated-settlements/prod/BASE_URL~true}
+    dev: ${ssm:/automated-settlements/dev/BASE_URL}
+    prod: ${ssm:/automated-settlements/prod/BASE_URL}
 
