@@ -27,11 +27,11 @@ package:
 functions:
   handle-offers:
     handler: src/handler.main
-      environment:
-        DATADOG_HOST: ${ssm:/automated-settlements/${self:provider.stage}/DATADOG_HOST~true}
-        DATADOG_API_KEY: ${ssm:/automated-settlements/${self:provider.stage}/DATADOG_API_KEY~true}
-        DATADOG_SERVICE: ${ssm:/automated-settlements/${self:provider.stage}/DATADOG_SERVICE~true}
-        BASE_URL: ${ssm:/automated-settlements/${self:provider.stage}/BASE_URL~true}
+    environment:
+      DATADOG_HOST: ${ssm:/automated-settlements/${self:provider.stage}/DATADOG_HOST~true}
+      DATADOG_API_KEY: ${ssm:/automated-settlements/${self:provider.stage}/DATADOG_API_KEY~true}
+      DATADOG_SERVICE: ${ssm:/automated-settlements/${self:provider.stage}/DATADOG_SERVICE~true}
+      BASE_URL: ${ssm:/automated-settlements/${self:provider.stage}/BASE_URL~true}
 custom:
   esbuild:
     bundle: true
