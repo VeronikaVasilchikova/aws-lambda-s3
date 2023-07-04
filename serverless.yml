@@ -14,11 +14,6 @@ provider:
   stage: ${opt:stage, 'dev'}
   runtime: nodejs18.x
   region: us-west-2
-  # iamRoleStatements:
-  #   - Effect: Allow
-  #     Action:
-  #       - s3:*
-  #     Resource: "*"
   memorySize: 128
   environment:
     ENV: ${self:provider.stage}
@@ -36,24 +31,11 @@ package:
 functions:
   handle-offers:
     handler: src/handler.main
-    # events:
-    #   - s3:
-    #       bucket: automated-settlement-segments-fix
-    #       event: s3:ObjectCreated:*
-    #       rules:
-    #         - suffix: .csv
-    #       existing: true # generates another Lambda called 'custom-resource-existing-s3'
     environment:
-      # DATADOG_HOST: ${env:DATADOG_HOST}
-      # DATADOG_API_KEY: ${env:DATADOG_API_KEY}
-      # DATADOG_SERVICE: ${env:DATADOG_SERVICE}
-      # BASE_URL: ${env:BASE_URL}
-      DATADOG_HOST: arn:aws:secretsmanager:us-west-2:007745934069:secret:dev/automated-settlements/lambda-nKiJIY/DATADOG_HOST
-      DATADOG_API_KEY: arn:aws:secretsmanager:us-west-2:007745934069:secret:dev/automated-settlements/lambda-nKiJIY/DATADOG_API_KEY
-      DATADOG_SERVICE: arn:aws:secretsmanager:us-west-2:007745934069:secret:dev/automated-settlements/lambda-nKiJIY/DATADOG_SERVICE
-      BASE_URL: arn:aws:secretsmanager:us-west-2:007745934069:secret:dev/automated-settlements/lambda-nKiJIY/BASE_URL
-      # ${ssm(\${self:provider.region}):${self:provider.stage}/${self:service}/lambda-nKiJIY/BASE_URL, ""}
-      # arn:aws:secretsmanager:us-west-2:007745934069:secret:dev/automated-settlements/lambda-nKiJIY/BASE_URL
+      DATADOG_HOST: arn:aws:secretsmanager:us-west-2:007745934069:secret:${self:provider.stage}/automated-settlements/lambda-nKiJIY/DATADOG_HOST
+      DATADOG_API_KEY: arn:aws:secretsmanager:us-west-2:007745934069:secret:${self:provider.stage}/automated-settlements/lambda-nKiJIY/DATADOG_API_KEY
+      DATADOG_SERVICE: arn:aws:secretsmanager:us-west-2:007745934069:secret:${self:provider.stage}/automated-settlements/lambda-nKiJIY/DATADOG_SERVICE
+      BASE_URL: arn:aws:secretsmanager:us-west-2:007745934069:secret:${self:provider.stage}/automated-settlements/lambda-nKiJIY/BASE_URL
 
 custom:
   esbuild:
