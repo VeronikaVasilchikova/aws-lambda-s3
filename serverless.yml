@@ -13,6 +13,11 @@ provider:
   runtime: nodejs18.x
   region: us-west-2
   memorySize: 128
+  environment:
+    DATADOG_HOST: ${self:custom.DATADOG_HOST.${self:provider.stage}}
+    DATADOG_API_KEY: ${self:custom.DATADOG_API_KEY.${self:provider.stage}}
+    DATADOG_SERVICE: ${self:custom.DATADOG_SERVICE.${self:provider.stage}}
+    BASE_URL: ${self:custom.BASE_URL.${self:provider.stage}}
   stackName: ${self:service}-${self:provider.stage}-stack
   stackTags:
     env: ${self:provider.stage}
@@ -27,11 +32,7 @@ package:
 functions:
   handle-offers:
     handler: src/handler.main
-    environment:
-      DATADOG_HOST: ${ssm:/automated-settlements/${self:provider.stage}/DATADOG_HOST~true}
-      DATADOG_API_KEY: ${ssm:/automated-settlements/${self:provider.stage}/DATADOG_API_KEY~true}
-      DATADOG_SERVICE: ${ssm:/automated-settlements/${self:provider.stage}/DATADOG_SERVICE~true}
-      BASE_URL: ${ssm:/automated-settlements/${self:provider.stage}/BASE_URL~true}
+
 custom:
   esbuild:
     bundle: true
@@ -44,16 +45,16 @@ custom:
       'require.resolve': undefined
     platform: node
     concurrency: 10
-  datadoghost:
+  DATADOG_HOST:
     dev: ${ssm:/automated-settlements/dev/DATADOG_HOST~true}
     prod: ${ssm:/automated-settlements/prod/DATADOG_HOST~true}
-  datadogapikey:
+  DATADOG_API_KEY:
     dev: ${ssm:/automated-settlements/dev/DATADOG_API_KEY~true}
     prod: ${ssm:/automated-settlements/prod/DATADOG_API_KEY~true}
-  datadogservice:
+  DATADOG_SERVICE:
     dev: ${ssm:/automated-settlements/dev/DATADOG_SERVICE~true}
     prod: ${ssm:/automated-settlements/prod/DATADOG_SERVICE~true}
-  baseurl:
+  BASE_URL:
     dev: ${ssm:/automated-settlements/dev/BASE_URL~true}
     prod: ${ssm:/automated-settlements/prod/BASE_URL~true}
 
