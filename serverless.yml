@@ -7,18 +7,18 @@ plugins:
   - serverless-plugin-resource-tagging
   - serverless-deployment-bucket
 
-useDotenv: true
+# useDotenv: true
 
 provider:
   name: aws
   stage: ${opt:stage, 'dev'}
   runtime: nodejs18.x
   region: us-west-2
-  iamRoleStatements:
-    - Effect: Allow
-      Action:
-        - s3:*
-      Resource: "*"
+  # iamRoleStatements:
+  #   - Effect: Allow
+  #     Action:
+  #       - s3:*
+  #     Resource: "*"
   memorySize: 128
   environment:
     ENV: ${self:provider.stage}
