@@ -1,0 +1,64 @@
+service: automated-settlements
+
+frameworkVersion: '3'
+
+plugins:
+  - serverless-esbuild
+  - serverless-plugin-resource-tagging
+  - serverless-deployment-bucket
+
+useDotenv: true
+
+provider:
+  name: aws
+  stage: ${opt:stage, 'dev'}
+  runtime: nodejs18.x
+  region: us-west-2
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - s3:*
+      Resource: "*"
+  memorySize: 128
+  environment:
+    ENV: ${self:provider.stage}
+  stackName: ${self:service}-${self:provider.stage}-stack
+  stackTags:
+    env: ${self:provider.stage}
+    service: ${self:service}.kafene.com
+    version: ${file(./package.json):version}
+  deploymentBucket:
+    name: ${self:service}-${self:provider.stage}-${self:provider.region}-bucket
+
+package:
+  individually: true
+
+functions:
+  handle-offers:
+    handler: src/handler.main
+    # events:
+    #   - s3:
+    #       bucket: automated-settlement-segments-fix
+    #       event: s3:ObjectCreated:*
+    #       rules:
+    #         - suffix: .csv
+    #       existing: true # generates another Lambda called 'custom-resource-existing-s3'
+    environment:
+      DATADOG_HOST: ${env:DATADOG_HOST}
+      DATADOG_API_KEY: ${env:DATADOG_API_KEY}
+      DATADOG_SERVICE: ${env:DATADOG_SERVICE}
+      BASE_URL: ${env:BASE_URL}
+
+custom:
+  esbuild:
+    bundle: true
+    minify: false
+    sourcemap: true
+    exclude:
+      - aws-sdk
+    target: node18
+    define:
+      'require.resolve': undefined
+    platform: node
+    concurrency: 10
+

@@ -1,0 +1,56 @@
+name: Serverless Deploy
+
+on:
+  workflow_dispatch:
+    inputs:
+      stage:
+        type: choice
+        description: 'Serverless Stage'
+        required: true
+        default: 'dev'
+        options:
+          - dev
+          - prod
+
+env:
+  AWS_PROD_ACCOUNT_ID: ${{ secrets.AWS_PROD_ACCOUNT_ID }}
+  AWS_DEV_ACCOUNT_ID: ${{ secrets.AWS_DEV_ACCOUNT_ID }}
+  SERVERLESS_DEPLOY_TEAM: ${{ secrets.SERVERLESS_DEPLOY_TEAM }}
+
+jobs:
+
+  serverless-deploy:
+    name: "Serverless Deploy"
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+
+    steps:
+      - name: Guard for Serverless Deploy
+        if: ${{ !contains(env.SERVERLESS_DEPLOY_TEAM, format('|{0}|', github.actor)) }}
+        run: |
+          echo ${{ github.actor }} is not allowed for Serverless Deploy
+          exit 1
+
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Assume AWS Deploy role for ${{ env.AWS_ACCOUNT_ID }} account.
+        uses: aws-actions/configure-aws-credentials@v2
+        env:
+          AWS_ACCOUNT_ID: ${{ github.event.inputs.stage == 'prod' && env.AWS_PROD_ACCOUNT_ID || env.AWS_DEV_ACCOUNT_ID }}
+        with:
+          role-to-assume: arn:aws:iam::${{ env.AWS_ACCOUNT_ID }}:role/automated-settlements
+          aws-region: "us-west-2"
+
+      - name: Use Node.js 18.x
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Serverless deploy entire package to "${{ github.event.inputs.stage }}" stage
+        run: npm run deploy -- --stage ${{ github.event.inputs.stage }} --verbose
