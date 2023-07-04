@@ -13,11 +13,6 @@ provider:
   runtime: nodejs18.x
   region: us-west-2
   memorySize: 128
-  environment:
-    DATADOG_HOST: ${self:custom.datadoghost.${self:custom.stage}}
-    DATADOG_API_KEY: ${self:custom.datadogapikey.${self:custom.stage}}
-    DATADOG_SERVICE: ${self:custom.datadogservice.${self:custom.stage}}
-    BASE_URL: ${self:custom.baseurl.${self:custom.stage}}
   stackName: ${self:service}-${self:provider.stage}-stack
   stackTags:
     env: ${self:provider.stage}
@@ -32,7 +27,11 @@ package:
 functions:
   handle-offers:
     handler: src/handler.main
-      
+      environment:
+        DATADOG_HOST: ${ssm:/automated-settlements/${self:provider.stage}/DATADOG_HOST~true}
+        DATADOG_API_KEY: ${ssm:/automated-settlements/${self:provider.stage}/DATADOG_API_KEY~true}
+        DATADOG_SERVICE: ${ssm:/automated-settlements/${self:provider.stage}/DATADOG_SERVICE~true}
+        BASE_URL: ${ssm:/automated-settlements/${self:provider.stage}/BASE_URL~true}
 custom:
   esbuild:
     bundle: true
