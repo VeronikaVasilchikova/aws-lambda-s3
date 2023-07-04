@@ -48,12 +48,12 @@ functions:
       # DATADOG_API_KEY: ${env:DATADOG_API_KEY}
       # DATADOG_SERVICE: ${env:DATADOG_SERVICE}
       # BASE_URL: ${env:BASE_URL}
-      DATADOG_HOST: ${ssm(\${self:provider.region}):/aws/reference/secretsmanager/${self:service}/\${self:provider.stage}/DATADOG_HOST, ""}
-      DATADOG_API_KEY: ${ssm(\${self:provider.region}):/aws/reference/secretsmanager/${self:service}/\${self:provider.stage}/DATADOG_API_KEY, ""}
-      DATADOG_SERVICE: ${ssm(\${self:provider.region}):/aws/reference/secretsmanager/${self:service}/\${self:provider.stage}/DATADOG_SERVICE, ""}
-      BASE_URL: ${ssm(\${self:provider.region}):/aws/reference/secretsmanager/${self:service}/\${self:provider.stage}/BASE_URL, ""}
-      # ${ssm(\${self:provider.region}):${AWS_SM_REF}/${self:service}/\${self:provider.stage}/BASE_URL, ""}
-      # ${ssm:/aws/reference/secretsmanager/secret_ID_in_Secrets_
+      DATADOG_HOST: arn:aws:secretsmanager:us-west-2:007745934069:secret:dev/automated-settlements/lambda-nKiJIY/DATADOG_HOST
+      DATADOG_API_KEY: arn:aws:secretsmanager:us-west-2:007745934069:secret:dev/automated-settlements/lambda-nKiJIY/DATADOG_API_KEY
+      DATADOG_SERVICE: arn:aws:secretsmanager:us-west-2:007745934069:secret:dev/automated-settlements/lambda-nKiJIY/DATADOG_SERVICE
+      BASE_URL: arn:aws:secretsmanager:us-west-2:007745934069:secret:dev/automated-settlements/lambda-nKiJIY/BASE_URL
+      # ${ssm(\${self:provider.region}):${self:provider.stage}/${self:service}/lambda-nKiJIY/BASE_URL, ""}
+      # arn:aws:secretsmanager:us-west-2:007745934069:secret:dev/automated-settlements/lambda-nKiJIY/BASE_URL
 
 custom:
   esbuild:
