@@ -15,6 +15,7 @@ on:
 env:
   AWS_PROD_ACCOUNT_ID: ${{ secrets.AWS_PROD_ACCOUNT_ID }}
   AWS_DEV_ACCOUNT_ID: ${{ secrets.AWS_DEV_ACCOUNT_ID }}
+  AWS_REGION: ${{ secrets.AWS_REGION }}
   SERVERLESS_DEPLOY_TEAM: ${{ secrets.SERVERLESS_DEPLOY_TEAM }}
 
 jobs:
@@ -42,7 +43,7 @@ jobs:
           AWS_ACCOUNT_ID: ${{ github.event.inputs.stage == 'prod' && env.AWS_PROD_ACCOUNT_ID || env.AWS_DEV_ACCOUNT_ID }}
         with:
           role-to-assume: arn:aws:iam::${{ env.AWS_ACCOUNT_ID }}:role/automated-settlements
-          aws-region: "us-west-2"
+          aws-region: ${{ env.AWS_REGION }}
 
       - name: Use Node.js 18.x
         uses: actions/setup-node@v3
