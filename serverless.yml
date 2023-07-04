@@ -32,11 +32,12 @@ functions:
   handle-offers:
     handler: src/handler.main
     environment:
-      DATADOG_HOST: arn:aws:secretsmanager:us-west-2:007745934069:secret:${self:provider.stage}/automated-settlements/lambda-nKiJIY/DATADOG_HOST
+      DATADOG_HOST: ${arn:aws:secretsmanager:us-west-2:007745934069:secret:${self:provider.stage}/automated-settlements/lambda-nKiJIY/DATADOG_HOST}
       DATADOG_API_KEY: arn:aws:secretsmanager:us-west-2:007745934069:secret:${self:provider.stage}/automated-settlements/lambda-nKiJIY/DATADOG_API_KEY
       DATADOG_SERVICE: arn:aws:secretsmanager:us-west-2:007745934069:secret:${self:provider.stage}/automated-settlements/lambda-nKiJIY/DATADOG_SERVICE
       BASE_URL: arn:aws:secretsmanager:us-west-2:007745934069:secret:${self:provider.stage}/automated-settlements/lambda-nKiJIY/BASE_URL
-
+      TEST: ${ssm(\${self:provider.region}):/aws/reference/secretsmanager:${self:provider.stage}/automated-settlements}
+      
 custom:
   esbuild:
     bundle: true
