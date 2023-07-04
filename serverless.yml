@@ -36,7 +36,7 @@ functions:
       DATADOG_API_KEY: arn:aws:secretsmanager:us-west-2:007745934069:secret:${self:provider.stage}/automated-settlements/lambda-nKiJIY/DATADOG_API_KEY
       DATADOG_SERVICE: arn:aws:secretsmanager:us-west-2:007745934069:secret:${self:provider.stage}/automated-settlements/lambda-nKiJIY/DATADOG_SERVICE
       BASE_URL: arn:aws:secretsmanager:us-west-2:007745934069:secret:${self:provider.stage}/automated-settlements/lambda-nKiJIY/BASE_URL
-      TEST: ${ssm:/aws/reference/secretsmanager/${self:provider.stage}/automated-settlements/lambda/DATADOG_HOST}
+      TEST: ${ssm:/arn:aws:secretsmanager:us-west-2:007745934069:secret:prod/automated-settlements/lambda-jPlTS5/DATADOG_HOST}
       
 custom:
   esbuild:
