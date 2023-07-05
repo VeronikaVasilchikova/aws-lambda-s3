@@ -1,4 +1,4 @@
-# automated-settlements.kafene.com
+# automated-settlements_create-lease-offers.kafene.com
 
 This AWS Lambda function, created using the [serverless framework](https://www.serverless.com/framework/docs), [Node.js](https://nodejs.org/en/docs) and [TypeScript](https://www.typescriptlang.org/), is designed to handle events triggered by an AWS S3 bucket. It performs API requests to four endpoints of the 'kafene_api' to process data from uploaded '.csv' files.
 
