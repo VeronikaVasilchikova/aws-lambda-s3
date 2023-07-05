@@ -7,7 +7,7 @@ import { processRecords } from '@utils/processRecords';
  * AWS Lambda function handler that is called each time
  * when a new object (a .csv file) is saved to the AWS S3 bucket
  *
- * @param {S3Event} _event - An AWS S3 event 's3:ObjectCreated:*'
+ * @param {S3Event} event - An AWS S3 event 's3:ObjectCreated:*'
  * @returns {Promise<void>} A promise that resolves to void
  * @throws {Error} Throw an error if an error occurs during the operation
  */

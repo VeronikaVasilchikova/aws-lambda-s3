@@ -6,9 +6,9 @@ import axios from 'axios';
 import chunk from 'lodash/chunk';
 
 import config from '@config/config';
+import { AXIOS_REQUEST_HEADERS, BATCH_SIZE } from '@constants';
 import Logger from '@logger';
-import { AXIOS_REQUEST_HEADERS, BATCH_SIZE } from '../constants';
-import { BatchType, CsvItemType, PostRequestBody } from '../types';
+import { BatchType, CsvItemType, PostRequestBody } from '@types';
 
 /**
  * Generates batches of data based on a given array of records.

@@ -3,7 +3,10 @@
     "baseUrl": ".",
     "paths": {
       "@config/*": ["src/config/*"],
+      "@constants": ["src/constants"],
+      "@helpers": ["src/helpers"],
       "@logger": ["src/logger"],
+      "@types": ["src/types"],
       "@utils/*": ["src/utils/*"],
     }
   }

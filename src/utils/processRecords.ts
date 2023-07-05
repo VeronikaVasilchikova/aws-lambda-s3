@@ -1,9 +1,9 @@
 import { S3EventRecord } from 'aws-lambda';
 
 import Logger from '@logger';
-import { ENDPOINT, LEASE_OFFERS } from '../constants';
-import { CsvItemType, LeaseOffersDataType, PaylinkDataType, TimelineDataType } from '../types';
-import { parseCSVData, generateBatches, generateBatchedPromises, makePostRequest } from '../helpers';
+import { ENDPOINT, LEASE_OFFERS } from '@constants';
+import { CsvItemType, LeaseOffersDataType, PaylinkDataType, TimelineDataType } from '@types';
+import { parseCSVData, generateBatches, generateBatchedPromises, makePostRequest } from '@helpers';
 
 /**
  * Prepare specific data structure to create new rows in 'paylink' table
@@ -79,12 +79,17 @@ export const processRecords = async (record: S3EventRecord): Promise<void> => {
     const timelineData = generateTimelineData(arrayFromCsv);
     const timelineBatchedData = generateBatches(timelineData);
 
-    await Promise.all([
-      makePostRequest(LEASE_OFFERS.DEACTIVATE, ENDPOINT.DEACTIVATE_LEASE_OFFER),
-      generateBatchedPromises(leaseOffersBatchedData, ENDPOINT.LEASE_OFFERS),
-      generateBatchedPromises(paylinkBatchedData, ENDPOINT.PAYLINK),
-      generateBatchedPromises(timelineBatchedData, ENDPOINT.APP_TIMELINE),
-    ]);
+    console.log('leaseOffersBatchedData', leaseOffersBatchedData);
+    console.log('paylinkBatchedData', paylinkBatchedData);
+    console.log('timelineBatchedData', timelineBatchedData);
+
+
+    // await Promise.all([
+    //   // makePostRequest(LEASE_OFFERS.DEACTIVATE, ENDPOINT.DEACTIVATE_LEASE_OFFER),
+    //   generateBatchedPromises(leaseOffersBatchedData, ENDPOINT.LEASE_OFFERS),
+    //   generateBatchedPromises(paylinkBatchedData, ENDPOINT.PAYLINK),
+    //   generateBatchedPromises(timelineBatchedData, ENDPOINT.APP_TIMELINE),
+    // ]);
   } catch (error) {
     Logger.error(error);
     throw new Error(`ProcessRecords: ${(error as Error)?.message}`);

@@ -2,7 +2,7 @@ import winston, { format, Logform } from 'winston';
 import { get, StackFrame } from 'stack-trace';
 
 import config from '@config/config';
-import { LogLevelType } from '@utils/types';
+import { LogLevelType } from '@types';
 
 import packageJson from '../../package.json';
 
