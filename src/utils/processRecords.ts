@@ -34,7 +34,7 @@ const generateLeaseOffersData = (arrayFromCsv: CsvItemType[]): LeaseOffersDataTy
     return {
       applicationId: application_id,
       leaseId: lease_id,
-      offerId: offer_id,
+      offerId: +offer_id,
       isActive: true,
     };
   });
@@ -50,11 +50,11 @@ const generateTimelineData = (arrayFromCsv: CsvItemType[]): TimelineDataType[] =
   return arrayFromCsv.map((item) => {
     const { application_id, lease_id, offer_id, campaign_name, max_collectible_amount } = item;
     return {
-      offerId: offer_id,
+      offerId: +offer_id,
       campaignName: campaign_name,
       applicationId: application_id,
       leaseId: lease_id,
-      maxCollectibleAmount: max_collectible_amount,
+      maxCollectibleAmount: +max_collectible_amount,
     };
   });
 };
@@ -79,13 +79,10 @@ export const processRecords = async (record: S3EventRecord): Promise<void> => {
     const timelineData = generateTimelineData(arrayFromCsv);
     const timelineBatchedData = generateBatches(timelineData);
 
-    console.log('leaseOffersBatchedData', leaseOffersBatchedData);
-    console.log('paylinkBatchedData', paylinkBatchedData);
-    console.log('timelineBatchedData', timelineBatchedData);
-
+    console.log('timelineBatchedData', generateBatchedPromises(leaseOffersBatchedData, ENDPOINT.LEASE_OFFERS));
 
     // await Promise.all([
-    //   // makePostRequest(LEASE_OFFERS.DEACTIVATE, ENDPOINT.DEACTIVATE_LEASE_OFFER),
+    //   makePostRequest(LEASE_OFFERS.DEACTIVATE, ENDPOINT.DEACTIVATE_LEASE_OFFER),
     //   generateBatchedPromises(leaseOffersBatchedData, ENDPOINT.LEASE_OFFERS),
     //   generateBatchedPromises(paylinkBatchedData, ENDPOINT.PAYLINK),
     //   generateBatchedPromises(timelineBatchedData, ENDPOINT.APP_TIMELINE),

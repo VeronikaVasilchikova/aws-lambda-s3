@@ -3,6 +3,8 @@
   "version": "1.0.0",
   "description": "Lambda function that manages lease_offers, generates paylinks and completes application_timeline",
   "scripts": {
+    "deploy:dev": "sls deploy --stage dev --verbose --aws-profile veranika",
+    "deploy:prod": "sls deploy --stage prod --verbose --aws-profile veranika",
     "deploy": "sls deploy",
     "lint": "eslint \"**/*.ts\"",
     "lint:fix": "npm run lint -- --fix",

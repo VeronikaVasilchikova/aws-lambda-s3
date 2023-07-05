@@ -12,6 +12,11 @@ provider:
   stage: ${opt:stage, 'dev'}
   runtime: nodejs18.x
   region: us-west-2
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - s3:*
+      Resource: "*"
   memorySize: 128
   environment:
     DATADOG_HOST: ${self:custom.DATADOG_HOST.${self:provider.stage}}

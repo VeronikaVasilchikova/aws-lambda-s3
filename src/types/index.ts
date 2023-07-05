@@ -6,8 +6,8 @@ export type CsvItemType = {
   tier_1_status: string;
   tier_2_status: string;
   tier_3_status: string;
-  offer_id: number;
-  max_collectible_amount: number;
+  offer_id: string | number;
+  max_collectible_amount: string | number;
   campaign_name: string;
 };
 
