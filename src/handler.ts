@@ -9,7 +9,6 @@ import { processRecords } from '@utils/processRecords';
  *
  * @param {S3Event} event - An AWS S3 event 's3:ObjectCreated:*'
  * @returns {Promise<void>} A promise that resolves to void
- * @throws {Error} Throw an error if an error occurs during the operation
  */
 export const main: S3Handler = async (event: S3Event): Promise<void> => {
   const { Records } = event;

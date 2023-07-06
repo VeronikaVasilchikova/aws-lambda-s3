@@ -5,6 +5,14 @@ import { ENDPOINT, LEASE_OFFERS } from '@constants';
 import { CsvItemType, LeaseOffersDataType, PaylinkDataType, TimelineDataType } from '@types';
 import { parseCSVData, generateBatches, generateBatchedPromises, makePostRequest } from '@helpers';
 
+import HttpRequestMock from 'http-request-mock';
+const mocker = HttpRequestMock.setup();
+
+mocker.mock({
+  url: 'https://www.api.com/some-api',
+  body: 'some response data',
+});
+
 /**
  * Prepare specific data structure to create new rows in 'paylink' table
  *
@@ -79,14 +87,12 @@ export const processRecords = async (record: S3EventRecord): Promise<void> => {
     const timelineData = generateTimelineData(arrayFromCsv);
     const timelineBatchedData = generateBatches(timelineData);
 
-    console.log('timelineBatchedData', generateBatchedPromises(leaseOffersBatchedData, ENDPOINT.LEASE_OFFERS));
-
-    // await Promise.all([
-    //   makePostRequest(LEASE_OFFERS.DEACTIVATE, ENDPOINT.DEACTIVATE_LEASE_OFFER),
-    //   generateBatchedPromises(leaseOffersBatchedData, ENDPOINT.LEASE_OFFERS),
-    //   generateBatchedPromises(paylinkBatchedData, ENDPOINT.PAYLINK),
-    //   generateBatchedPromises(timelineBatchedData, ENDPOINT.APP_TIMELINE),
-    // ]);
+    await Promise.all([
+      makePostRequest(LEASE_OFFERS.DEACTIVATE, ENDPOINT.DEACTIVATE_LEASE_OFFER),
+      generateBatchedPromises(leaseOffersBatchedData, ENDPOINT.LEASE_OFFERS),
+      generateBatchedPromises(paylinkBatchedData, ENDPOINT.PAYLINK),
+      generateBatchedPromises(timelineBatchedData, ENDPOINT.APP_TIMELINE),
+    ]);
   } catch (error) {
     Logger.error(error);
     throw new Error(`ProcessRecords: ${(error as Error)?.message}`);

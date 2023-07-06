@@ -7,6 +7,8 @@ plugins:
   - serverless-plugin-resource-tagging
   - serverless-deployment-bucket
 
+useDotenv: true
+
 provider:
   name: aws
   stage: ${opt:stage, 'dev'}
@@ -17,12 +19,12 @@ provider:
       Action:
         - s3:*
       Resource: "*"
-  memorySize: 128
-  environment:
-    DATADOG_HOST: ${self:custom.DATADOG_HOST.${self:provider.stage}}
-    DATADOG_API_KEY: ${self:custom.DATADOG_API_KEY.${self:provider.stage}}
-    DATADOG_SERVICE: ${self:custom.DATADOG_SERVICE.${self:provider.stage}}
-    BASE_URL: ${self:custom.BASE_URL.${self:provider.stage}}
+  memorySize: 256
+  # environment:
+  #   DATADOG_HOST: ${self:custom.DATADOG_HOST.${self:provider.stage}}
+  #   DATADOG_API_KEY: ${self:custom.DATADOG_API_KEY.${self:provider.stage}}
+  #   DATADOG_SERVICE: ${self:custom.DATADOG_SERVICE.${self:provider.stage}}
+  #   BASE_URL: ${self:custom.BASE_URL.${self:provider.stage}}
   stackName: ${self:service}-${self:provider.stage}-stack
   stackTags:
     env: ${self:provider.stage}
@@ -37,6 +39,11 @@ package:
 functions:
   handle-offers:
     handler: src/handler.main
+    environment:
+      DATADOG_HOST: ${env:DATADOG_HOST}
+      DATADOG_API_KEY: ${env:DATADOG_API_KEY}
+      DATADOG_SERVICE: ${env:DATADOG_SERVICE}
+      BASE_URL: ${env:BASE_URL}
 
 custom:
   esbuild:
@@ -50,16 +57,16 @@ custom:
       'require.resolve': undefined
     platform: node
     concurrency: 10
-  DATADOG_HOST:
-    dev: ${ssm:/automated-settlements/dev/DATADOG_HOST}
-    prod: ${ssm:/automated-settlements/prod/DATADOG_HOST}
-  DATADOG_API_KEY:
-    dev: ${ssm:/automated-settlements/dev/DATADOG_API_KEY}
-    prod: ${ssm:/automated-settlements/prod/DATADOG_API_KEY}
-  DATADOG_SERVICE:
-    dev: ${ssm:/automated-settlements/dev/DATADOG_SERVICE}
-    prod: ${ssm:/automated-settlements/prod/DATADOG_SERVICE}
-  BASE_URL:
-    dev: ${ssm:/automated-settlements/dev/BASE_URL}
-    prod: ${ssm:/automated-settlements/prod/BASE_URL}
+  # DATADOG_HOST:
+  #   dev: ${ssm:/automated-settlements/dev/DATADOG_HOST}
+  #   prod: ${ssm:/automated-settlements/prod/DATADOG_HOST}
+  # DATADOG_API_KEY:
+  #   dev: ${ssm:/automated-settlements/dev/DATADOG_API_KEY}
+  #   prod: ${ssm:/automated-settlements/prod/DATADOG_API_KEY}
+  # DATADOG_SERVICE:
+  #   dev: ${ssm:/automated-settlements/dev/DATADOG_SERVICE}
+  #   prod: ${ssm:/automated-settlements/prod/DATADOG_SERVICE}
+  # BASE_URL:
+  #   dev: ${ssm:/automated-settlements/dev/BASE_URL}
+  #   prod: ${ssm:/automated-settlements/prod/BASE_URL}
 

@@ -50,9 +50,8 @@ export const makePostRequest = async (body: PostRequestBody, url: string): Promi
  * @param {string} url - The URL to which the POST requests will be made.
  * @returns An array of promises representing the batched POST requests.
  */
-export const generateBatchedPromises = async (batches: BatchType[], url: string): Promise<Promise<unknown>[]> => {
-  const promises = batches.map((batch: BatchType) => makePostRequest(batch, url));
-  return promises;
+export const generateBatchedPromises = (batches: BatchType[], url: string): Promise<void>[] => {
+  return batches.map(async (batch: BatchType) => await makePostRequest(batch, url));
 };
 
 /**
